@@ -132,6 +132,16 @@ Swagger is available at:
 http://localhost:3000/docs
 ```
 
+## FRONTEND (Basic Client)
+A basic frontend was initialized using a CLI tool to consume the backend API and validate the main application flows.
+
+```
+cd client
+npx serve -l 5173
+http://localhost:5173/pages/login.html
+```
+
+
 It includes examples for:
 - User registration
 - Login
