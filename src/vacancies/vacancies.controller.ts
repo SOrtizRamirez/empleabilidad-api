@@ -8,7 +8,9 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import type { JwtPayload } from '../common/types/jwt-payload.type';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Vacancies')
 @Controller('vacancies')
 export class VacanciesController {
   constructor(private readonly vacanciesService: VacanciesService) {}

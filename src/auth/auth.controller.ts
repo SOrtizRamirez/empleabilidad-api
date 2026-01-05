@@ -4,7 +4,12 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { Public } from '../common/decorators/public.decorator';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
+@UseGuards(JwtAuthGuard)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -24,5 +29,10 @@ export class AuthController {
   @Get('me')
   me(@CurrentUser() user: any) {
     return user;
+  }
+
+  @Post('logout')
+  logout() {
+    return { message: 'Logged out' };
   }
 }
