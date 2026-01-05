@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Crear Vacante</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+    <main class="container">
+        <header class="row">
+            <h1>Crear Vacante</h1>
+            <div class="row" style="gap:10px">
+                <a class="btn btn-outline" href="./dashboard.html">Volver</a>
+                <button id="logout" class="btn btn-outline">Logout</button>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>Formulario</h2>
+
+            <form id="vacancyForm" class="grid">
+                <div class="field">
+                    <label>Título</label>
+                    <input name="title" type="text" maxlength="140" required />
+                </div>
+
+                <div class="field">
+                    <label>Empresa</label>
+                    <input name="company" type="text" maxlength="140" required />
+                </div>
+
+                <div class="field">
+                    <label>Ubicación</label>
+                    <input name="location" type="text" maxlength="140" placeholder="Bogotá, Medellín..." />
+                </div>
+
+                <div class="field">
+                    <label>Seniority</label>
+                    <select name="seniority">
+                        <option value="">(opcional)</option>
+                        <option value="JUNIOR">JUNIOR</option>
+                        <option value="MID">MID</option>
+                        <option value="SENIOR">SENIOR</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Salario mínimo</label>
+                    <input name="salaryMin" type="number" step="0.01" min="0" placeholder="3500000" />
+                </div>
+
+                <div class="field">
+                    <label>Salario máximo</label>
+                    <input name="salaryMax" type="number" step="0.01" min="0" placeholder="5000000" />
+                </div>
+
+                <div class="field field-full">
+                    <label>Descripción</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+
+                <div class="field field-full">
+                    <label>Tecnologías (coma separada)</label>
+                    <input name="technologies" type="text" placeholder="nestjs,postgres,node" />
+                    <small>En el back se guarda como array de strings.</small>
+                </div>
+
+                <div class="field field-full row" style="justify-content:flex-end; gap:10px;">
+                    <button class="btn" type="submit">Crear vacante</button>
+                </div>
+            </form>
+
+            <p id="msg" class="msg"></p>
+        </section>
+    </main>
+
+    <script type="module" src="../js/create-vacancy.js"></script>
+</body>
+
+</html>
