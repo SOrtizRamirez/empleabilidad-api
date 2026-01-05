@@ -10,6 +10,9 @@ import { VacanciesModule } from './vacancies/vacancies.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { AuthModule } from './auth/auth.module';
 
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { RolesGuard } from './common/guards/roles/roles.guard';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,7 +30,7 @@ import { AuthModule } from './auth/auth.module';
         database: config.get<string>('DB_NAME'),
 
         autoLoadEntities: true,
-        synchronize: false, 
+        synchronize: false,
         logging: true,
       }),
     }),
@@ -37,6 +40,10 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
+  ],
 })
 export class AppModule {}
