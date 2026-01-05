@@ -30,11 +30,6 @@ async function bootstrap() {
       },
       'bearer',
     )
-    // Si tu PDF exige x-api-key, lo documentas así:
-    .addApiKey(
-      { type: 'apiKey', name: 'x-api-key', in: 'header' },
-      'x-api-key',
-    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

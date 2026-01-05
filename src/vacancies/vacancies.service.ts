@@ -69,6 +69,21 @@ export class VacanciesService {
       qb.andWhere('v.status = :status', { status: query.status });
     }
 
+    if (query.seniority) {
+      qb.andWhere('v.seniority = :seniority', { seniority: query.seniority });
+    }
+
+    if (query.tech) {
+      const techs = query.tech
+        .split(',')
+        .map((t) => t.trim().toLowerCase())
+        .filter(Boolean);
+
+      if (techs.length) {
+        qb.andWhere('v.technologies && ARRAY[:...techs]::text[]', { techs });
+      }
+    }
+
     if (query.q) {
       const q = `%${query.q.trim().toLowerCase()}%`;
       qb.andWhere(
@@ -82,26 +97,14 @@ export class VacanciesService {
 
     const [data, total] = await qb.getManyAndCount();
 
-    if (query.seniority) {
-      qb.andWhere('v.seniority = :seniority', { seniority: query.seniority });
-    }
-
-    if (query.tech) {
-      const techs = query.tech
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean);
-
-      if (techs.length) {
-        qb.andWhere('v.technologies && ARRAY[:...techs]::text[]', { techs });
-      }
-    }
-
     return {
       page,
       limit,
       total,
       data,
+      ...(total === 0
+        ? { message: 'No vacancies found for the selected filters' }
+        : {}),
     };
   }
 

@@ -23,7 +23,7 @@ The API is designed following **Clean Code**, **SOLID principles**, and **modula
 ## Architecture & Modules
 The application is structured in a modular way using the NestJS CLI:
 
-```
+```bash
 src/
 ├── auth/
 │   ├── auth.controller.ts
@@ -70,7 +70,7 @@ The **administrator** and **manager** roles are created and assigned **only via 
   - Role-based authorization
 
 ### Required Headers
-```
+```bash
 Authorization: Bearer <JWT>
 ```
 
@@ -95,14 +95,14 @@ Authorization: Bearer <JWT>
 - description
 - technologies
 - seniority
-- softSkills
 - location
-- modality
-- salaryRange
+- status
+- created by
+- salaryMin
+- salaryMax
 - company
-- maxApplicants
-- isActive
-- createdAt
+- applications
+
 
 ### Application
 - id
@@ -118,7 +118,7 @@ Authorization: Bearer <JWT>
 ## Global Response Interceptor
 All API responses are standardized using a global interceptor:
 
-```
+```bash
 {
   "success": true,
   "data": {},
@@ -128,14 +128,15 @@ All API responses are standardized using a global interceptor:
 
 ## API Documentation (Swagger)
 Swagger is available at:
-```
+```bash
 http://localhost:3000/docs
 ```
+
 
 ## FRONTEND (Basic Client)
 A basic frontend was initialized using a CLI tool to consume the backend API and validate the main application flows.
 
-```
+```bash
 cd client
 npx serve -l 5173
 http://localhost:5173/pages/login.html
@@ -158,13 +159,13 @@ It includes examples for:
 
 ### Steps
 1. Clone the repository
-```
+```bash
 git clone https://github.com/SOrtizRamirez/empleabilidad-api
 cd empleabilidad-api
 ```
 
 2. Install dependencies
-```
+```bash
 npm install
 ```
 
@@ -172,17 +173,17 @@ npm install
 Create a `.env` file using `.env.example`.
 
 4. Run seeders (roles)
-```
+```bash
 npm run seed
 ```
 
 5. Start the application
-```
+```bash
 npm run start:dev
 ```
 
 Application runs at:
-```
+```bash
 http://localhost:3000
 ```
 
@@ -200,6 +201,50 @@ npm run test
 
 Minimum suggested coverage: **40%**.
 
+## Database Setup (PostgreSQL)
+
+This project uses PostgreSQL + TypeORM migrations.
+The database schema is created from scratch using migrations, and initial system users are created using seeders.
+
+## Important:
+The application does not use synchronize: true.
+All schema changes are managed via migrations to ensure consistency and reproducibility.
+
+## First-time Setup (Clean Database)
+
+If you are running the project for the first time or want a clean database:
+1. Reset the schema (development only)
+```bash
+psql -h localhost -U <DB_USER> -d <DB_NAME> -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+```
+2. Run migrations
+```bash
+npm run migration:run
+```
+3. Run seeders
+```bash
+npm run seed
+```
+4. Run the Application
+```bash
+npm run start:dev
+```
+
+### Notes for Evaluators
+
+The database schema is managed entirely via TypeORM migrations
+
+The project is designed to be reproducible:
+
+- Clone repository
+
+- Configure .env
+
+- Run migrations
+
+- Run seeders
+
+No manual database changes are required
 ## Deliverables Included
 - REST API (NestJS)
 - PostgreSQL persistence with TypeORM

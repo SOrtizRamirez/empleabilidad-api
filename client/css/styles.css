@@ -55,3 +55,76 @@ li {
     align-items: center;
     justify-content: space-between;
 }
+
+.filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 12px 0 10px;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    opacity: 0.85;
+    margin-bottom: 6px;
+}
+
+.field small {
+    display: block;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #2a3a5c;
+    background: #0b1220;
+    color: #fff;
+}
+
+.field.actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #2a3a5c;
+    color: #e6e6e6;
+}
+
+.meta {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+.vacancy-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.vacancy-left {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .filters {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .filters {
+        grid-template-columns: 1fr;
+    }
+}

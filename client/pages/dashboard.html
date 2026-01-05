@@ -16,7 +16,45 @@
 
         <section class="card">
             <h2>Vacantes</h2>
-            <button id="load_vacancies">Cargar vacantes</button>
+
+            <div class="filters">
+                <div class="field">
+                    <label for="q">Buscar</label>
+                    <input id="q" placeholder="backend, remote, empresa..." />
+                </div>
+
+                <div class="field">
+                    <label for="tech">Tecnologías</label>
+                    <input id="tech" placeholder="nestjs,postgres,react" />
+                    <small>Separadas por coma</small>
+                </div>
+
+                <div class="field">
+                    <label for="seniority">Seniority</label>
+                    <select id="seniority">
+                        <option value="">Cualquiera</option>
+                        <option value="JUNIOR">JUNIOR</option>
+                        <option value="MID">MID</option>
+                        <option value="SENIOR">SENIOR</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="status">Estado</label>
+                    <select id="status">
+                        <option value="">Cualquiera</option>
+                        <option value="OPEN">OPEN</option>
+                        <option value="CLOSED">CLOSED</option>
+                    </select>
+                </div>
+
+                <div class="field actions">
+                    <button id="btn_all">Cargar todas</button>
+                    <button id="btn_search">Filtrar</button>
+                    <button id="btn_clear" class="btn-secondary">Limpiar</button>
+                </div>
+            </div>
+
             <ul id="vacancies"></ul>
         </section>
 
