@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+    <main class="container">
+        <header class="row">
+            <h1>Dashboard</h1>
+            <button id="logout">Logout</button>
+        </header>
+
+        <section class="card">
+            <h2>Vacantes</h2>
+            <button id="load_vacancies">Cargar vacantes</button>
+            <ul id="vacancies"></ul>
+        </section>
+
+        <section class="card">
+            <h2>Mis postulaciones</h2>
+            <button id="load_apps">Cargar mis aplicaciones</button>
+            <ul id="apps"></ul>
+        </section>
+
+        <p id="msg"></p>
+    </main>
+
+    <script type="module" src="../js/dashboard.js"></script>
+</body>
+
+</html>
