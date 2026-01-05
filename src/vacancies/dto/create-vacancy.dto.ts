@@ -5,9 +5,12 @@ import {
   MaxLength,
   Min,
   IsNumber,
+  IsArray,
+  ArrayMaxSize
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { VacancyStatus } from '../../common/enums/vacancy-status.enum';
+import { VacancySeniority } from 'src/common/enums/vacancy-seniority.enum';
 
 export class CreateVacancyDto {
   @IsString()
@@ -40,5 +43,15 @@ export class CreateVacancyDto {
 
   @IsOptional()
   @IsEnum(VacancyStatus)
-  status?: VacancyStatus; // por defecto OPEN, pero lo permitimos si admin/gestor quiere
+  status?: VacancyStatus;
+  
+  @IsOptional()
+  @IsEnum(VacancySeniority)
+  seniority?: VacancySeniority;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(30)
+  @IsString({ each: true })
+  technologies?: string[];
 }

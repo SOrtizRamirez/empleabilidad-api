@@ -12,6 +12,7 @@ import {
 import { VacancyStatus } from '../../common/enums/vacancy-status.enum';
 import { User } from '../../users/entities/user.entity';
 import { Application } from '../../applications/entities/application.entity';
+import { VacancySeniority } from '../../common/enums/vacancy-seniority.enum';
 
 @Entity({ name: 'vacancies' })
 export class Vacancy {
@@ -30,10 +31,22 @@ export class Vacancy {
   @Column({ type: 'varchar', length: 140, nullable: true })
   location?: string | null;
 
-  @Column({ name: 'salary_min', type: 'numeric', precision: 12, scale: 2, nullable: true })
+  @Column({
+    name: 'salary_min',
+    type: 'numeric',
+    precision: 12,
+    scale: 2,
+    nullable: true,
+  })
   salaryMin?: string | null;
 
-  @Column({ name: 'salary_max', type: 'numeric', precision: 12, scale: 2, nullable: true })
+  @Column({
+    name: 'salary_max',
+    type: 'numeric',
+    precision: 12,
+    scale: 2,
+    nullable: true,
+  })
   salaryMax?: string | null;
 
   @Index()
@@ -44,8 +57,9 @@ export class Vacancy {
   })
   status: VacancyStatus;
 
-  // --- Relations ---
-  @ManyToOne(() => User, (user) => user.vacanciesCreated, { onDelete: 'RESTRICT' })
+  @ManyToOne(() => User, (user) => user.vacanciesCreated, {
+    onDelete: 'RESTRICT',
+  })
   @JoinColumn({ name: 'created_by' })
   createdBy: User;
 
@@ -60,4 +74,10 @@ export class Vacancy {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date;
+
+  @Column({ type: 'enum', enum: VacancySeniority, nullable: true })
+  seniority: VacancySeniority | null;
+
+  @Column({ type: 'text', array: true, default: () => "'{}'" })
+  technologies: string[];
 }
