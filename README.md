@@ -1,98 +1,207 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Employability Job Vacancies Platform – Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Coder
+Sharon R. Ortiz Ramírez
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Overview
+This project is a RESTful API built with **Node.js and NestJS** as part of an employability technical assessment.  
+Its goal is to centralize job vacancies and allow coders to apply autonomously, enforcing authentication, authorization, and strict business rules.
 
-## Description
+The API is designed following **Clean Code**, **SOLID principles**, and **modular NestJS architecture**.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tech Stack
+- Node.js
+- NestJS
+- TypeScript
+- PostgreSQL
+- TypeORM
+- JWT Authentication
+- API Key protection
+- Swagger (OpenAPI)
+- Jest (unit testing)
 
-## Project setup
+## Architecture & Modules
+The application is structured in a modular way using the NestJS CLI:
 
-```bash
-$ npm install
+```
+src/
+├── auth/
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── auth.module.ts
+│   └── guards/
+├── users/
+├── vacancies/
+├── applications/
+├── common/
+│   ├── decorators/
+│   ├── guards/
+│   ├── interceptors/
+│   └── enums/
+├── app.module.ts
+└── main.ts
 ```
 
-## Compile and run the project
+## Roles and Access Control
+The system supports three roles:
 
-```bash
-# development
-$ npm run start
+- **Administrator**
+  - Full access to all endpoints.
 
-# watch mode
-$ npm run start:dev
+- **Manager**
+  - Create, update, activate, and deactivate vacancies.
+  - Define and update applicant quotas.
+  - View applications.
 
-# production mode
-$ npm run start:prod
+- **Coder**
+  - Register and authenticate.
+  - View available vacancies.
+  - Apply to vacancies with available quota.
+
+The default role on registration is **coder**.  
+The **administrator** and **manager** roles are created and assigned **only via seeders**.
+
+## Authentication & Security
+- JWT-based authentication.
+- API Key required on protected endpoints.
+- Custom Guards for:
+  - JWT validation
+  - API Key validation
+  - Role-based authorization
+
+### Required Headers
+```
+Authorization: Bearer <JWT>
 ```
 
-## Run tests
+## Business Rules
+- A coder cannot apply twice to the same vacancy.
+- Applications are blocked when the vacancy quota is full.
+- A coder cannot apply to more than **three active vacancies**.
+- Only authenticated users can apply.
+- Coders cannot create, update, or manage vacancies.
 
-```bash
-# unit tests
-$ npm run test
+## Entities
+### User
+- id
+- name
+- email
+- password
+- role
 
-# e2e tests
-$ npm run test:e2e
+### Vacancy
+- id
+- title
+- description
+- technologies
+- seniority
+- softSkills
+- location
+- modality
+- salaryRange
+- company
+- maxApplicants
+- isActive
+- createdAt
 
-# test coverage
-$ npm run test:cov
+### Application
+- id
+- userId
+- vacancyId
+- appliedAt
+
+## Validation & DTOs
+- DTOs implemented using `class-validator` and `class-transformer`.
+- Custom Pipes used for validation and transformation.
+- Invalid requests return meaningful HTTP errors.
+
+## Global Response Interceptor
+All API responses are standardized using a global interceptor:
+
+```
+{
+  "success": true,
+  "data": {},
+  "message": "Operation successful"
+}
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+## API Documentation (Swagger)
+Swagger is available at:
+```
+http://localhost:3000/docs
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+It includes examples for:
+- User registration
+- Login
+- Vacancy creation
+- Vacancy application
+- Required headers
 
-## Resources
+## Installation & Execution
 
-Check out a few resources that may come in handy when working with NestJS:
+### Prerequisites
+- Node.js v18+
+- PostgreSQL
+- npm
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Steps
+1. Clone the repository
+```
+git clone https://github.com/SOrtizRamirez/empleabilidad-api
+cd empleabilidad-api
+```
 
-## Support
+2. Install dependencies
+```
+npm install
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+3. Environment configuration  
+Create a `.env` file using `.env.example`.
 
-## Stay in touch
+4. Run seeders (roles)
+```
+npm run seed
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+5. Start the application
+```
+npm run start:dev
+```
 
-## License
+Application runs at:
+```
+http://localhost:3000
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Unit Testing
+Unit tests are implemented using **Jest**.
+
+Covered scenarios:
+- Vacancy creation logic.
+- Vacancy application rules.
+
+Run tests with:
+```
+npm run test
+```
+
+Minimum suggested coverage: **40%**.
+
+## Deliverables Included
+- REST API (NestJS)
+- PostgreSQL persistence with TypeORM
+- JWT + API Key security
+- Role-based access control
+- Global response interceptor
+- Swagger documentation
+- Unit tests
+- `.env.example`
+- Seeders for administrator and manager roles
+- Basic frontend (HTML/CSS) consuming the API
+
+## Notes
+This project focuses on backend architecture, security, and business rules rather than UI complexity.  
+It is intended as a solid foundation for an employability tracking platform.
