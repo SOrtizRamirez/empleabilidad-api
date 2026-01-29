@@ -1,46 +1,27 @@
-name: SonarQube
-
+name: SonarCloud
 on:
   push:
-    branches: ["master" ]
+    branches: [ main, master, develop ]
   pull_request:
 
 jobs:
-  sonarqube:
+  sonarcloud:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install deps
-        run: npm ci
+      - run: npm ci
 
-      - name: Run tests with coverage
+      - name: Test with coverage
         run: npm run test:cov
 
-      - name: Debug coverage (optional)
-        run: |
-          ls -la coverage || true
-          test -f coverage/lcov.info && echo "lcov exists" || (echo "lcov missing" && exit 1)
-          grep -n "^SF:" coverage/lcov.info | head -n 20
-
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      - name: Quality Gate (optional but recommended)
-        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        timeout-minutes: 5
