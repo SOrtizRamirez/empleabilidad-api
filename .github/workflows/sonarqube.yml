@@ -32,7 +32,7 @@ jobs:
           test -f coverage/lcov.info && echo "lcov exists" || (echo "lcov missing" && exit 1)
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@0400d5f644dc74513175e3cd8d07132dd4860809 # v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
