@@ -30,6 +30,7 @@ jobs:
         run: |
           ls -la coverage || true
           test -f coverage/lcov.info && echo "lcov exists" || (echo "lcov missing" && exit 1)
+          grep -n "^SF:" coverage/lcov.info | head -n 20
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@0400d5f644dc74513175e3cd8d07132dd4860809 # v5
