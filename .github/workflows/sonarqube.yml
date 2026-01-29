@@ -33,13 +33,13 @@ jobs:
           grep -n "^SF:" coverage/lcov.info | head -n 20
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@a31c939
+        uses: SonarSource/sonarqube-scan-action@a31c939xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       - name: Quality Gate (optional but recommended)
-        uses: SonarSource/sonarqube-scan-action@a31c939
+        uses: SonarSource/sonarqube-scan-action@a31c939xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
